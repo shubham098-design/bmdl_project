@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../routes/app_routes.dart';
-
 
 class AuthController extends GetxController {
   final emailController = TextEditingController();
@@ -46,11 +46,13 @@ class AuthController extends GetxController {
     }
 
     isLoading.value = true;
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () async {
       isLoading.value = false;
       final email = emailController.text.trim();
       final password = passwordController.text;
-      if (email == 'user@example.com' && password == 'password123') {
+      if (email == 'abc@gmail.com' && password == '123456') {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
         Get.offAllNamed(Routes.home);
       } else {
         Get.snackbar(
